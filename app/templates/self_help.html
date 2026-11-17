@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block title %}Self-Help Troubleshooting{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/self-help.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="help-hero">
+  <div class="container help-hero-grid">
+    <div class="fade-in">
+      <div class="hero-badge">Free guided self-help</div>
+      <h1>Small fix or expert repair?<br>Let’s find out.</h1>
+      <p class="lead">Answer a few questions and try safe, practical checks at your own pace. If DIY is not enough, your results go straight to our technicians with your booking.</p>
+      <div class="hero-actions">
+        <a href="#diagnosis" class="btn btn-primary">Start troubleshooting</a>
+        <a href="#tutorials" class="btn btn-secondary">Browse tutorials</a>
+      </div>
+      <ul class="help-assurances" aria-label="Self-help benefits">
+        <li>No account needed</li>
+        <li>No tools required</li>
+        <li>About 5–15 minutes</li>
+      </ul>
+    </div>
+    <div class="help-hero-illustration fade-in" aria-hidden="true">
+      <svg viewBox="0 0 560 400" role="img">
+        <defs>
+          <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="currentColor" opacity=".16"/></pattern>
+        </defs>
+        <rect width="560" height="400" fill="url(#dotGrid)"/>
+        <path d="M115 74h330a18 18 0 0 1 18 18v206a18 18 0 0 1-18 18H115a18 18 0 0 1-18-18V92a18 18 0 0 1 18-18Z" fill="var(--bg)" stroke="currentColor" stroke-width="3"/>
+        <path d="M98 256h364v42a18 18 0 0 1-18 18H115a18 18 0 0 1-18-18v-42Z" fill="var(--accent-soft)"/>
+        <circle cx="129" cy="108" r="6" fill="var(--accent)"/><path d="M147 108h92" stroke="currentColor" opacity=".35" stroke-width="6" stroke-linecap="round"/>
+        <path d="m218 189 25 25 54-61" fill="none" stroke="var(--teal)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M152 282h80m-16 34v28m-56 0h112" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+        <path d="M418 166v106m-53-53h106" stroke="var(--accent)" stroke-width="3" stroke-dasharray="6 8" opacity=".65"/>
+        <circle cx="418" cy="219" r="72" fill="var(--bg)" stroke="var(--accent)" stroke-width="3"/>
+        <path d="m392 206 18 18 36-40" fill="none" stroke="var(--accent)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M385 260h66" stroke="currentColor" stroke-width="6" stroke-linecap="round" opacity=".3"/>
+        <path d="M58 142h24M70 130v24M486 106h24M498 94v24" stroke="var(--teal)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <div class="help-float-note note-one"><span class="status-dot"></span> Safe checks first</div>
+      <div class="help-float-note note-two">Technician-ready summary</div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="diagnosis">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2>Guided diagnosis</h2>
+      <p class="lead">Choose what is happening. We will only suggest low-risk checks and tell you when to stop.</p>
+    </div>
+
+    <div class="troubleshooter fade-in" id="troubleshooter">
+      <div class="troubleshooter-top">
+        <div>
+          <span class="tool-label">PCFIX SELF-HELP</span>
+          <strong id="toolStatus">Select a symptom</strong>
+        </div>
+        <button type="button" class="text-button hidden" id="restartTool">Start over</button>
+      </div>
+      <div class="diagnostic-progress" aria-label="Troubleshooting progress"><span id="diagnosticProgress"></span></div>
+
+      <div id="symptomView" class="tool-view">
+        <div class="symptom-grid">
+          <button type="button" class="symptom-option" data-issue="power">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5v17M13 10a18 18 0 1 0 22 0"/></svg>
+            <span><strong>It won’t turn on</strong><small>No lights, fans, or startup</small></span>
+          </button>
+          <button type="button" class="symptom-option" data-issue="slow">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 34a18 18 0 1 1 32 0M24 30l10-12"/><circle cx="24" cy="31" r="3"/></svg>
+            <span><strong>Slow or freezing</strong><small>Apps lag or computer hangs</small></span>
+          </button>
+          <button type="button" class="symptom-option" data-issue="internet">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 17a29 29 0 0 1 38 0M12 25a19 19 0 0 1 24 0M19 33a8 8 0 0 1 10 0"/><circle cx="24" cy="40" r="2"/></svg>
+            <span><strong>No internet</strong><small>Wi-Fi or connection problems</small></span>
+          </button>
+          <button type="button" class="symptom-option" data-issue="display">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="7" width="38" height="27" rx="3"/><path d="M24 34v8m-10 0h20M12 14l24 13M36 14 12 27"/></svg>
+            <span><strong>Blank screen</strong><small>Power is on but nothing shows</small></span>
+          </button>
+          <button type="button" class="symptom-option" data-issue="audio">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 20v8h8l11 9V11l-11 9H8ZM34 18c4 3 4 9 0 12M39 13c8 7 8 15 0 22"/></svg>
+            <span><strong>No sound</strong><small>Speakers or headphones silent</small></span>
+          </button>
+          <button type="button" class="symptom-option" data-issue="heat">
+            <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M19 26V9a5 5 0 0 1 10 0v17a10 10 0 1 1-10 0Z"/><path d="M24 15v18M35 10h8m-8 8h5"/><circle cx="24" cy="35" r="4"/></svg>
+            <span><strong>Hot or noisy</strong><small>Overheating or loud fans</small></span>
+          </button>
+        </div>
+        <div class="not-sure"><span>Not sure which one fits?</span><a href="{{ url_for('book') }}?service=troubleshooting">Let a technician diagnose it</a></div>
+      </div>
+
+
+
+      <div id="safetyView" class="tool-view hidden">
+        <div class="safety-layout">
+          <div>
+            <span class="tool-label">SAFETY CHECK</span>
+            <h3>Stop before you start if you notice:</h3>
+            <ul class="danger-list">
+              <li>Smoke, sparks, burning smell, or unusual crackling</li>
+              <li>Spilled liquid or a wet device</li>
+              <li>A swollen battery, cracked case, or exposed wiring</li>
+              <li>Severe heat that makes the device unsafe to touch</li>
+            </ul>
+            <p class="text-muted">If any apply, unplug the device only if it is safe to do so. Do not open it or keep trying to power it on.</p>
+            <button type="button" class="btn btn-danger" id="safetyStop">I notice a safety risk</button>
+          </div>
+          <div class="safety-ready">
+            <svg viewBox="0 0 160 160" aria-hidden="true"><path d="M80 12 138 34v39c0 38-23 62-58 76-35-14-58-38-58-76V34l58-22Z"/><path d="m51 79 19 19 41-43"/></svg>
+            <h3>Safe to try basic checks?</h3>
+            <p>Back up important files when possible. Never open the power supply, remove the motherboard, or erase your disk as part of this guide.</p>
+            <label class="confirm-check"><input type="checkbox" id="safetyConfirm"><span>None of the warning signs apply, and I feel comfortable continuing.</span></label>
+            <button type="button" class="btn btn-primary btn-block" id="beginGuide" disabled>Begin safe checks</button>
+            <button type="button" class="text-button" id="safetyBack">Choose a different symptom</button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div id="stepView" class="tool-view hidden" aria-live="polite">
+        <div class="step-meta"><span id="stepCount"></span><span id="stepTime"></span></div>
+        <div class="guide-layout">
+          <div class="guide-copy">
+            <h3 id="stepTitle"></h3>
+            <p id="stepDescription"></p>
+            <div class="instruction-box" id="stepInstruction"></div>
+            <p class="guide-tip" id="stepTip"></p>
+            <a href="https://support.microsoft.com/" target="_blank" rel="noopener noreferrer" class="tutorial-inline hidden" id="stepTutorial">Watch the related tutorial <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure class="guide-figure">
+            <div id="stepVisual"></div>
+            <figcaption>Simple visual guide — your device may look different.</figcaption>
+          </figure>
+        </div>
+        <div class="step-question">
+          <strong>Did this solve the problem?</strong>
+          <div class="step-actions">
+            <button type="button" class="btn btn-success" id="fixedButton">Yes, it’s fixed</button>
+            <button type="button" class="btn btn-secondary" id="nextStepButton">No, try the next check</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="resultView" class="tool-view hidden" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section section-alt" id="tutorials">
+  <div class="container">
+    <div class="tutorial-heading fade-in">
+      <div><h2>Watch &amp; learn</h2><p class="lead">Short online tutorials for common fixes. Videos open in a new tab.</p></div>
+      <span class="tool-label">FREE VIDEO LIBRARY</span>
+    </div>
+    <div class="tutorial-grid">
+      <a class="tutorial-card fade-in" href="https://www.youtube.com/watch?v=x21M0dqOixc" target="_blank" rel="noopener noreferrer">
+        <div class="tutorial-thumb"><svg class="tutorial-art" viewBox="0 0 480 270" role="img" aria-label="Speakers and audio output settings illustration"><rect width="480" height="270" fill="var(--accent-soft)"/><path d="M0 45h480M0 90h480M0 135h480M0 180h480M0 225h480M60 0v270M120 0v270M180 0v270M240 0v270M300 0v270M360 0v270M420 0v270" stroke="var(--accent)" opacity=".08"/><rect x="64" y="45" width="220" height="180" rx="12" fill="var(--bg)" stroke="var(--border)"/><path d="M64 78h220" stroke="var(--border)"/><circle cx="82" cy="62" r="4" fill="var(--accent)"/><path d="M92 112v30m32-48v66m32-40v48m32-74v82m32-54v36" stroke="var(--accent)" stroke-width="10" stroke-linecap="round"/><rect x="322" y="62" width="92" height="146" rx="14" fill="var(--bg)" stroke="var(--text)" stroke-width="3"/><circle cx="368" cy="156" r="31" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="3"/><circle cx="368" cy="156" r="12" fill="var(--accent)"/><circle cx="368" cy="96" r="13" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="3"/></svg><span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 9 6-9 6Z"/></svg></span></div>
+        <div class="tutorial-copy"><span class="tool-label">AUDIO · MICROSOFT</span><h3>Change audio output in Windows 11</h3><p>Select the right speakers or headphones when there is no sound.</p><span class="watch-link">Watch tutorial <span aria-hidden="true">↗</span></span></div>
+      </a>
+      <a class="tutorial-card fade-in" href="https://www.youtube.com/watch?v=ta3YwxXeMwA" target="_blank" rel="noopener noreferrer">
+        <div class="tutorial-thumb"><svg class="tutorial-art" viewBox="0 0 480 270" role="img" aria-label="Wireless router and network illustration"><rect width="480" height="270" fill="var(--accent-soft)"/><circle cx="240" cy="126" r="112" fill="none" stroke="var(--accent)" opacity=".12" stroke-width="2"/><circle cx="240" cy="126" r="82" fill="none" stroke="var(--accent)" opacity=".16" stroke-width="2"/><path d="M138 83a147 147 0 0 1 204 0M169 119a103 103 0 0 1 142 0M205 156a51 51 0 0 1 70 0" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="round"/><circle cx="240" cy="186" r="10" fill="var(--accent)"/><rect x="68" y="177" width="126" height="52" rx="10" fill="var(--bg)" stroke="var(--text)" stroke-width="3"/><path d="M92 177v-45m76 45v-45" stroke="var(--text)" stroke-width="3"/><circle cx="94" cy="203" r="5" fill="var(--teal)"/><circle cx="114" cy="203" r="5" fill="var(--accent)"/><rect x="328" y="46" width="78" height="142" rx="14" fill="var(--bg)" stroke="var(--text)" stroke-width="3"/><path d="M350 62h34m-28 108h22" stroke="var(--border)" stroke-width="4"/><path d="m343 103 15 15 29-33" fill="none" stroke="var(--teal)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 9 6-9 6Z"/></svg></span></div>
+        <div class="tutorial-copy"><span class="tool-label">WI-FI · VIDEO WALKTHROUGH</span><h3>Fix Wi-Fi not working on Windows 11</h3><p>Work through connection, adapter, and network settings checks.</p><span class="watch-link">Watch tutorial <span aria-hidden="true">↗</span></span></div>
+      </a>
+      <a class="tutorial-card fade-in" href="https://www.youtube.com/watch?v=49zpK3iBYYU" target="_blank" rel="noopener noreferrer">
+        <div class="tutorial-thumb"><svg class="tutorial-art" viewBox="0 0 480 270" role="img" aria-label="Computer system health and repair illustration"><rect width="480" height="270" fill="var(--accent-soft)"/><path d="M30 30h420v210H30Z" fill="none" stroke="var(--accent)" opacity=".12" stroke-dasharray="5 8"/><rect x="82" y="38" width="250" height="166" rx="12" fill="var(--bg)" stroke="var(--text)" stroke-width="3"/><path d="M207 204v28m-65 0h130" stroke="var(--text)" stroke-width="5" stroke-linecap="round"/><path d="M111 91h61M111 120h41M111 149h76" stroke="var(--border)" stroke-width="8" stroke-linecap="round"/><path d="m235 127 23 23 48-57" fill="none" stroke="var(--teal)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><circle cx="373" cy="170" r="62" fill="var(--bg)" stroke="var(--accent)" stroke-width="3"/><path d="M373 132v76m-38-38h76" stroke="var(--accent)" stroke-width="3" stroke-dasharray="5 7"/><circle cx="373" cy="170" r="22" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="3"/><path d="M373 158v25m-6-12 6 6 6-6" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="play-button" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 6 9 6-9 6Z"/></svg></span></div>
+        <div class="tutorial-copy"><span class="tool-label">WINDOWS · VIDEO WALKTHROUGH</span><h3>Troubleshoot common Windows 11 issues</h3><p>A broader lesson covering slow performance, audio, and system errors.</p><span class="watch-link">Watch tutorial <span aria-hidden="true">↗</span></span></div>
+      </a>
+    </div>
+    <div class="official-links fade-in">
+      <strong>Prefer written manufacturer guides?</strong>
+      <a href="https://support.microsoft.com/en-us/windows/hardware/audio/fix-sound-or-audio-problems-in-windows" target="_blank" rel="noopener noreferrer">Microsoft audio support ↗</a>
+      <a href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows" target="_blank" rel="noopener noreferrer">Microsoft Wi-Fi support ↗</a>
+      <a href="https://support.apple.com/en-us/102623" target="_blank" rel="noopener noreferrer">Apple startup support ↗</a>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container handoff-panel fade-in">
+    <div><span class="tool-label">WHEN DIY IS NOT ENOUGH</span><h2>Your checks won’t go to waste.</h2><p class="lead">Book a repair and attach your self-help summary. Our technician can see the symptoms, safety concerns, and steps you already tried.</p></div>
+    <a href="{{ url_for('book') }}?service=repair" class="btn btn-primary">Book a professional repair</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/self-help.js') }}"></script>
+{% endblock %}

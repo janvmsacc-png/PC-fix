@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/self-help.css') }}">{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 12px;">
+      <div>
+        <h1 style="font-size: 1.75rem;">Dashboard</h1>
+        <p class="text-muted">Manage bookings and payments</p>
+      </div>
+      <a href="{{ url_for('admin_logout') }}" class="btn btn-secondary btn-sm">Logout</a>
+    </div>
+
+    <div class="admin-stats fade-in">
+      <div class="stat-card">
+        <div class="stat-value">{{ active_count }}</div>
+        <div class="stat-label">Active bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ pending_pay_count }}</div>
+        <div class="stat-label">Pending downpayments</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{ bookings|length }}</div>
+        <div class="stat-label">Total records</div>
+      </div>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table>
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Service</th>
+            <th>Slot</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if bookings %}
+            {% for b in bookings %}
+            {% set diagnostic = (b.get('machine_details') or {}).get('diagnostic_report') if b.get('machine_details') is mapping else none %}
+            <tr>
+              <td>
+                <strong>{{ b.name }}</strong><br>
+                <span class="text-muted" style="font-size: 0.8rem;">{{ b.email }}</span>
+                {% if diagnostic %}<br><span class="self-help-badge">DIY report attached</span>{% endif %}
+              </td>
+              <td>{{ services.get(b.service, {}).name if services.get(b.service) else b.service }}</td>
+              <td>{{ b.date }}<br><span class="text-muted">{{ b.time_slot }}</span></td>
+              <td><span class="badge badge-{{ b.status or 'pending' }}">{{ (b.status or 'pending')|replace('_', ' ') }}</span></td>
+              <td><span class="badge badge-{{ b.payment_status or 'unpaid' }}">{{ (b.payment_status or 'unpaid')|replace('_', ' ') }}</span></td>
+              <td>
+                <div class="action-btns">
+                  <form method="POST" action="{{ url_for('admin_action') }}">
+                    <input type="hidden" name="booking_id" value="{{ b.id }}">
+                    <input type="hidden" name="action" value="mark_paid">
+                    <button type="submit" class="btn btn-xs btn-primary">Mark Paid</button>
+                  </form>
+                  <form method="POST" action="{{ url_for('admin_action') }}">
+                    <input type="hidden" name="booking_id" value="{{ b.id }}">
+                    <input type="hidden" name="action" value="reschedule">
+                    <button type="submit" class="btn btn-xs btn-secondary">Reschedule</button>
+                  </form>
+                  <form method="POST" action="{{ url_for('admin_action') }}">
+                    <input type="hidden" name="booking_id" value="{{ b.id }}">
+                    <input type="hidden" name="action" value="archive">
+                    <button type="submit" class="btn btn-xs btn-secondary">Archive</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% if diagnostic %}
+            <tr class="admin-diagnostic-row">
+              <td colspan="6">
+                <div class="admin-diagnostic">
+                  <strong>Customer self-help summary:</strong> {{ diagnostic.get('issue') }} — {{ diagnostic.get('outcome') }}
+                  <p><strong>Safety risk:</strong> {{ 'Yes — inspect before powering on' if diagnostic.get('safety_risk') else 'None reported' }} · <strong>Completed:</strong> {{ diagnostic.get('completed_at') }}</p>
+                  {% if diagnostic.get('steps_attempted') %}
+                  <strong>Checks already attempted:</strong>
+                  <ul>{% for step in diagnostic.get('steps_attempted') %}<li>{{ step }}</li>{% endfor %}</ul>
+                  {% else %}<p>No DIY steps attempted; customer stopped at the safety check.</p>{% endif %}
+                </div>
+              </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                No bookings yet. When customers book, they will appear here.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/self-help.css') }}">{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="fade-in">
+      <div class="hero-badge">Trusted local computer experts</div>
+      <h1>Computer care,<br>done right.</h1>
+      <p class="lead">
+        From stubborn freezes to hardware repairs, PCfix delivers fast,
+        transparent troubleshooting, maintenance, and repair — booked in minutes.
+      </p>
+      <div class="hero-actions">
+        <a href="{{ url_for('book') }}" class="btn btn-primary">Book a Repair</a>
+        <a href="{{ url_for('self_help') }}" class="btn btn-secondary">Try Self-Help</a>
+        <a href="{{ url_for('services') }}" class="btn btn-secondary">View Services</a>
+      </div>
+    </div>
+    
+    <!-- 3D MOVING MOCKUP VIEWPORT -->
+    <div class="hero-visual fade-in" style="animation-delay: 0.15s">
+      <div class="mockup-perspective-wrapper">
+        <div class="isometric-grid">
+            
+            <!-- Card 1: Troubleshooting -->
+            <div class="floating-mockup-card card-1">
+                <div class="card-header-bar"><span></span><span></span><span></span></div>
+                <h3>Troubleshooting</h3>
+                <p class="card-price">from ₱999</p>
+                <div class="mock-ui-line long"></div>
+                <div class="mock-ui-line short"></div>
+            </div>
+
+            <!-- Card 2: Full Maintenance -->
+            <div class="floating-mockup-card card-2">
+                <div class="card-header-bar"><span></span><span></span><span></span></div>
+                <h3>Full Maintenance</h3>
+                <p class="card-price">from ₱1,999</p>
+                <div class="mock-ui-grid">
+                    <div></div><div></div>
+                </div>
+            </div>
+
+            <!-- Card 3: Hardware Repair -->
+            <div class="floating-mockup-card card-3">
+                <div class="card-header-bar"><span></span><span></span><span></span></div>
+                <h3>Hardware Repair</h3>
+                <p class="card-price">from ₱2,999</p>
+                <a href="{{ url_for('book') }}" class="mock-ui-btn text-center" style="display: block; text-decoration: none;">Reserve a Slot</a>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2>What we fix</h2>
+      <p class="lead">Clear packages, honest pricing, no surprises.</p>
+    </div>
+    <div class="card-grid">
+      {% for key, s in services.items() %}
+      <div class="card fade-in" style="--delay: {{ loop.index0 * 0.1 }}s">
+        <div class="card-icon">{{ s.name[0] }}</div>
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.description }}</p>
+        <div class="card-price">₱{{ "{:,}".format(s.price) }} <span>starting</span></div>
+        <ul class="feature-list">
+          {% for f in s.features %}
+          <li>{{ f }}</li>
+          {% endfor %}
+        </ul>
+        <a href="{{ url_for('book') }}?service={{ key }}" class="btn btn-outline btn-block">Select</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container handoff-panel fade-in">
+    <div>
+      <span class="tool-label">NOT READY TO BOOK?</span>
+      <h2>Try a safe fix yourself first.</h2>
+      <p class="lead">Use our free illustrated troubleshooter for common power, performance, Wi-Fi, display, sound, and heat problems. If it does not work, send your results to a technician with your booking.</p>
+    </div>
+    <a href="{{ url_for('self_help') }}" class="btn btn-primary">Start Self-Help</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <h2>How it works</h2>
+      <p class="lead">Three simple steps from problem to solution.</p>
+    </div>
+    <div class="card-grid">
+      <div class="card fade-in">
+        <div class="card-icon">1</div>
+        <h3>Book online</h3>
+        <p>Choose a service, pick a date and time that works for you, and submit your details in under two minutes.</p>
+      </div>
+      <div class="card fade-in" style="animation-delay: 0.1s">
+        <div class="card-icon">2</div>
+        <h3>Confirm &amp; secure</h3>
+        <p>Receive an email with a secure link to add machine details and complete a small downpayment.</p>
+      </div>
+      <div class="card fade-in" style="animation-delay: 0.2s">
+        <div class="card-icon">3</div>
+        <h3>We take care of it</h3>
+        <p>Drop off or arrange pickup. Our technicians diagnose, repair, and return your device ready to go.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container text-center fade-in">
+    <h2>Ready when you are</h2>
+    <p class="lead" style="margin: 12px auto 28px;">
+      Online booking is free. No account required to reserve a slot.
+    </p>
+    <a href="{{ url_for('book') }}" class="btn btn-primary">Book a Repair Now</a>
+  </div>
+</section>
+{% endblock %}
