@@ -195,23 +195,13 @@
 {% block scripts %}
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const solutionLinks = {
-      power: "https://google.com",
-      slow: "https://google.com",
-      internet: "https://google.com",
-      display: "https://google.com",
-      audio: "https://google.com",
-      heat: "https://google.com"
-    };
+    const windowsSupportUrl = "https://microsoft.com";
 
     document.querySelectorAll(".symptom-option").forEach((button) => {
       button.addEventListener("click", () => {
-        const issue = button.getAttribute("data-issue");
-        const url = solutionLinks[issue] || "https://microsoft.com";
-        window.open(url, "_blank", "noopener");
+        window.open(windowsSupportUrl, "_blank", "noopener");
       });
     });
   });
 </script>
 {% endblock %}
-
