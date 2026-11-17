@@ -193,5 +193,25 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/self-help.js') }}"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const solutionLinks = {
+      power: "https://microsoft.com",
+      slow: "https://microsoft.com",
+      internet: "https://microsoft.com",
+      display: "https://microsoft.com",
+      audio: "https://microsoft.com",
+      heat: "https://microsoft.com"
+    };
+
+    document.querySelectorAll(".symptom-option").forEach((button) => {
+      button.addEventListener("click", () => {
+        const issue = button.getAttribute("data-issue");
+        const url = solutionLinks[issue] || "https://microsoft.com";
+        window.open(url, "_blank", "noopener");
+      });
+    });
+  });
+</script>
 {% endblock %}
+
