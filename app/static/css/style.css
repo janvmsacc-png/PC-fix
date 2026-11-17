@@ -956,5 +956,27 @@ tr:hover td { background: var(--bg-alt); }
 .mock-ui-btn:hover {
     background-color: #0056b3;
 }
+/* Prevent horizontal overflow and oversized hero graphics on mobile */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+section, header, main, footer {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  /* Keep angled/3D card illustrations inside the screen width */
+  [class*="hero"] svg,
+  [class*="visual"],
+  [class*="cards"],
+  [class*="illustration"] {
+    max-width: 100%;
+    height: auto;
+    transform: none;
+  }
+}
 
 
