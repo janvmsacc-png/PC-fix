@@ -195,13 +195,23 @@
 {% block scripts %}
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const windowsSupportUrl = "https://microsoft.com";
+    const youtubeVideos = {
+      power: "https://www.youtube.com/watch?v=XzgPUozaiKU",
+      slow: "https://www.youtube.com/watch?v=UkA4a5dukrQ",
+      internet: "https://www.youtube.com/watch?v=8A08llTSYoU",
+      display: "https://www.youtube.com/watch?v=XzgPUozaiKU",
+      audio: "https://www.youtube.com/watch?v=RgS1h4bLrwE",
+      heat: "https://www.youtube.com/watch?v=ZCvnYuWs3bk"
+    };
 
     document.querySelectorAll(".symptom-option").forEach((button) => {
       button.addEventListener("click", () => {
-        window.open(windowsSupportUrl, "_blank", "noopener");
+        const issue = button.getAttribute("data-issue");
+        const url = youtubeVideos[issue] || "https://youtube.com";
+        window.open(url, "_blank", "noopener");
       });
     });
   });
 </script>
 {% endblock %}
+
